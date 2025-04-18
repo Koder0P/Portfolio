@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meenakshi's Track Of Life </title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            display: flex;
+            font-family: 'Press Start 2P', cursive;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 5000px;
+            height: 100vh;
+        }
+
+        header {
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1.5rem;
+        position: fixed;
+        top: 5%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 10;
+        }
+
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .section1 {
+            background-image: url('track.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section2 {
+            background-image: url('track.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section3 {
+            background-image: url('track.png');
+            background-size: cover;
+        }
+
+        .section4 {
+            background-image: url('track.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #car {
+        position: absolute;
+        width: 420px;
+        height: auto;
+        z-index: 2;
+        transition: transform 0.5s ease;
+        left: 50%;
+        top: 40%;
+        transform: translateX(-50%);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+            position: absolute;
+            bottom: 10%;
+        }
+
+        .control-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-button:hover {
+            background-color: #367c39;
+        }
+
+        .message-box {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 4;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message-box.show {
+            opacity: 1;
+        }
+
+        .checkpoint-info {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 5;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .checkpoint-info.show {
+            opacity: 1;
+        }
+
+        .checkpoint-info h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .checkpoint-info p {
+            margin-bottom: 10px;
+        }
+
+        .checkpoint-info button {
+            padding: 8px 16px;
+            background-color: #00B8D4;
+            color: white;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-family: 'Press Start 2P', cursive;
+            margin-top: 10px;
+        }
+        .checkpoint-info button:hover {
+            background-color: #00869e;
+        }
+
+        #nextCheckpoint {
+            margin-left: 10px;
+        }
+
+        .section2-controls {
+             bottom: 10%;
+        }
+        .section3-controls {
+            bottom: 10%;
+        }
+        .section4-controls{
+             bottom: 10%;
+        }
+
+        .path {  /* New Class */
+        position: absolute;
+        top: 32.5%;
+        left: 50%;
+        width: 9800px;
+        height: 300px;
+        background-color: rgba(128, 128, 128, 0.7); /* Grey with opacity */
+        transform: translateX(-50%);
+        z-index: 1; /* Ensure it's behind the car */
+        }
+
+        .checkpoint-content {
+        position: absolute;
+        top: 34.5%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        max-width: 1000px;
+        max-height: 400px;
+        width: 1000px;
+        padding-bottom: 2%;
+        overflow-y: auto;  /* Added scrollbar for content that exceeds 300px height */
+        box-sizing: border-box; /* Include padding and border in element's total width and height */
+        text-align: left;
+        }
+        .education-heading {
+        color: yellow;
+        }
+
+        .skills-heading{ 
+        color: yellow;
+        }
+
+        .achievements-heading{
+            color: yellow;
+        }
+
+        .sql-heading{ 
+            color: yellow;
+        }
+        .night-heading{ 
+            color: yellow;
+        }
+/*
+       .checkpoint-image{
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        } 
+*/
+        .checkpoint-text { /* Style for text */
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+       
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Race Track of my life</h1>
+    </header>
+    <div class="container">
+        <section class="section section1">
+            <canvas id="trackCanvas1" width="800" height="600"></canvas>
+            <img id="car" src="C:\Users\chada\OneDrive\Documents\meena\ai-car-simulation\car.png">
+            <div class="controls">
+                <button class="control-button" id="startRace">Start race </button>
+            </div>
+            <div class="path"></div>
+         </section>
+        <section class="section section2">
+            <canvas id="trackCanvas2" width="800" height="600"></canvas>
+             <div class="controls section2-controls" >
+                <button class="control-button view-button" data-checkpoint="1"> Meenakshi Devulapalli </button>
+           
+            </div>
+            <div class="checkpoint-content">
+                 <center> <span class="education-heading">Education</span>
+                <p class="checkpoint-text"><ul> 
+            <li>    St Ann's College for Women, Hyderabad, India.<br>August 2022 - Present<br>BSc, Mathematics, Statistics and Data Science (MSDS) - 7.2 </li>
+            <li>    <br> Villa Marie College For Women, Hyderabad, India.<br> September 2020 - April 2022 <br> Mathematics,Physics,CHemistry (MPC) - 93.8 %  </li>
+            <li>    <br> Vikas - The Concept School, Hyderabad, India. <br> March 2020 CBSE - 87% </li> </ul></p>
+
+            </div>
+        </section>
+        <section class="section section3">
+            <canvas id="trackCanvas3" width="800" height="600"></canvas>
+            <div class="controls section3-controls" >
+                <button class="control-button view-button" data-checkpoint="2"> Skills and Achievements </button>
+               
+            </div>
+             <div class="checkpoint-content">
+                <center> <span class="skills-heading"> Technical Skills </span></center>
+                    <p class="checkpoint-text"><ul> 
+                <li> Python, R </li>
+                <li> Java, JavaScript </li><br>
+                <center> <span class="achievements-heading"> Achievements </span></center>
+                <p class="checkpoint-text">
+                <li> Could I? - Resurgence 2023  </li>
+                <li> Senior Under Office (SUO) - NCC - leading 100 cadets. </li>
+                        <li> Attended  Special National Integration Camp (SNIC) - Johrat, Assam 2024 and        Republic Day Camp (RDC) - Telangana, 2023. </li>
+                </ul></p>
+                </div>
+                
+                <p class="checkpoint-text">
+            </div>
+        </section>
+        <section class="section section4">
+            <canvas id="trackCanvas4" width="800" height="600"></canvas>
+            <div class="controls section4-controls" >
+                <button class="control-button view-button" data-checkpoint="3">Projects </button>
+                
+            </div>
+            <div class="checkpoint-content">
+                <center> <span class="sql-heading">Database related to School Management System  </span></center>
+                    <p class="checkpoint-text"><ul> 
+                <li> SQL database to provide efficient analysis and easy management </li>
+                <li> ●Created - 6 schemas with data description and data connectivity in Python  </li> <br>
+                <center> <span class="night-heading"> NightSky Simulator  </span></center>
+                <p class="checkpoint-text">
+                <li> A program that simulates the night sky. </li>
+                <li> Built using JavaScript and is interpreted in an online compiler - P5 </li>
+                </ul></p>
+                </div>
+        </section>
+    </div>
+
+    <div class="message-box" id="messageBox"></div>
+    <div class="checkpoint-info" id="checkpointInfo">
+        <h2 id="checkpointTitle"></h2>
+        <p id="checkpointDescription"></p>
+        <button id="closeCheckpointInfo">Close</button>
+    </div>
+
+
+    <script>
+        const car = document.getElementById('car');
+        const startRaceButton = document.getElementById('startRace');
+        const messageBox = document.getElementById('messageBox');
+        const checkpointInfo = document.getElementById('checkpointInfo');
+        const checkpointTitleElement = document.getElementById('checkpointTitle');
+        const checkpointDescriptionElement = document.getElementById('checkpointDescription');
+        const closeCheckpointInfoButton = document.getElementById('closeCheckpointInfo');
+        const viewButtons = document.querySelectorAll('.view-button');
+        const nextButtons = document.querySelectorAll('.next-button');
+        const container = document('.container')
+
+        let carX = 100;
+        let carY = 450;
+        let carAngle = 0;
+        let isMoving = false;
+        let animationFrameId;
+        let zoomFactor = 1;
+        let farX = 2000;
+        let farY = 600;
+        let currentCheckpoint = 0;
+        let currentSection = 1;
+        let distanceToMove = 200;
+        let totalDistanceMoved = 0;
+
+
+        const checkpoints = [
+            {
+                x: 300,
+                title: "Checkpoint 1: Early Life",
+                description: "Born and raised in Kadapa, Andhra Pradesh.  Developed a passion for learning and problem-solving from a young age.",
+            },
+            {
+                x: 600,
+                title: "Checkpoint 2: Education",
+                description: "Completed my Bachelor's degree at Sri Krishnadevaraya University.  Gained a strong foundation in computer science and engineering principles.",
+            },
+            {
+                x: 900,
+                title: "Checkpoint 3: Skills",
+                description: "Proficient in Java, Python, and web development technologies.  Experienced in building and deploying scalable applications.",
+            },
+            {
+                x: 1200,
+                title: "Checkpoint 4: Projects",
+                description: "Developed a dynamic web application for e-commerce.  Contributed to open-source projects on GitHub.",
+            },
+             {
+                x: 1500,
+                title: "Checkpoint 5: Career",
+                description: "Worked as a Software Engineer at TechCorp.  Gained industry experience and collaborated with talented teams.",
+            },
+            {
+                x: 1800,
+                title: "Checkpoint 6: Achievements",
+                description: "Successfully led a team to deliver a critical project on time and within budget.  Received an award for outstanding performance.",
+            },
+            {
+                x: farX,
+                title: "Destination: Future",
+                description: "Continuing to learn and grow as a software engineer.  Eager to take on new challenges and contribute to innovative projects.",
+            },
+        ];
+
+
+
+        // --- Car Positioning and Drawing ---
+        function initializeCarPosition() {
+            carX = 100;
+            carY = 450;
+            carAngle = 0;
+            car.style.left = `${carX}px`;
+            car.style.top = `${carY}px`;
+            car.style.transform = `rotate(${carAngle}rad)`;
+                      
+        }
+
+        function moveCar() {
+            if (!isMoving) return;
+            totalDistanceMoved += distanceToMove;
+            carX = 100 + totalDistanceMoved;
+
+            zoomFactor = 1 - (carX / farX);
+            if (zoomFactor < 0.1) zoomFactor = 0.1;
+
+            car.style.left = `${carX}px`;
+            car.style.top = `${carY}px`;
+            car.style.transform = `scale(${zoomFactor}) rotate(${carAngle}rad)`;
+
+
+            if (totalDistanceMoved >= farX) {
+                isMoving = false;
+                showMessage('Journey Completed!');
+                initializeCarPosition();
+                zoomFactor = 1;
+                car.style.transform = `scale(${zoomFactor}) rotate(${carAngle}rad)`;
+                totalDistanceMoved = 0;
+            }
+
+            animationFrameId = requestAnimationFrame(moveCar);
+        }
+
+        // --- Event Handlers ---
+
+        startRaceButton.addEventListener('click', () => {
+            if (!isMoving) {
+                isMoving = true;
+                showMessage('Starting Journey!');
+                moveCar();
+                showCheckpoint(0);
+                currentCheckpoint = 1;
+                totalDistanceMoved = 0;
+            }
+        });
+
+
+
+        function showMessage(text) {
+            messageBox.textContent = text;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000);
+        }
+
+        function showCheckpoint(index) {
+            checkpointTitleElement.textContent = checkpoints[index].title;
+            checkpointDescriptionElement.textContent = checkpoints[index].description;
+            checkpointInfo.classList.add('show');
+             if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        }
+
+
+
+        closeCheckpointInfoButton.addEventListener('click', () => {
+            checkpointInfo.classList.remove('show');
+
+        });
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const checkpointNumber = parseInt(button.dataset.checkpoint);
+                showCheckpoint(checkpointNumber - 1);
+
+                // Calculate the scroll position
+                const sectionElement = document.querySelector(`.section${checkpointNumber + 1}`); // Target next section.
+                if (sectionElement) {
+                    sectionElement.scrollIntoView({ behavior: 'smooth' });
+                }
+
+            });
+        });
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const nextSection = parseInt(button.dataset.next);
+                document.body.scrollLeft = document.getElementById(`section${nextSection}`).offsetLeft;
+                isMoving = true;
+                moveCar();
+                checkpointInfo.classList.remove('show');
+                if (currentCheckpoint < checkpoints.length) {
+                    showCheckpoint(currentCheckpoint);
+                    currentCheckpoint++;
+                }
+                totalDistanceMoved += 200;
+
+            });
+        });
+
+        // --- Initialization ---
+        initializeCarPosition();
+
+
+    </script>
+</body>
+</html>
